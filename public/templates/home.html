@@ -1,0 +1,9 @@
+<div ng-if="!has_logedin_user">
+  <a href='/#/sign_in'>Sign_in</a>
+  <a href='/#/sign_up'>Sign_up</a>
+</div>
+
+<div ng-if="has_logedin_user">
+  <button ng-click='logout()'>Logout</button>
+  Signed in Successfully
+</div>
