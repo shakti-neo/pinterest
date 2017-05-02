@@ -6,6 +6,7 @@ import SignIn from "./pages/signin.jsx";
 import SignUp from "./pages/signup.jsx";
 import Main from "./layout/main.jsx";
 import { Router, Route, IndexRoute, browserHistory } from "react-router";
+import Dashboard from "./pages/dashboard.jsx"
 
 ReactDOM.render(
   <Router history={browserHistory}>
@@ -13,6 +14,7 @@ ReactDOM.render(
       <IndexRoute component={Home}/>
       <Route path="signin" component={ SignIn }/>
       <Route path="signup" component={ SignUp }/>
+      <Route path="dashboard" component={ Dashboard } />
     </Route>
   </Router >,
   document.getElementById("app")
