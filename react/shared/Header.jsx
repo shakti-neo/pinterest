@@ -4,12 +4,11 @@ import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from "react-bootstrap"
 import { Link } from "react-router"
 import LoginStore from "../stores/LoginStores.jsx"
 import LoginActions from "../actions/LoginActions.jsx"
-import localCache from "../localstorage.jsx"
 
 class Header extends React.Component {
   constructor(props){
     super(props)
-    this.state = LoginStore.getState();
+    this.state = {};
     this.logout = this.logout.bind(this);
     this.onChange = this.onChange.bind(this);
   }
@@ -19,6 +18,7 @@ class Header extends React.Component {
   }
 
   componentWillMount(){
+    this.setState(LoginStore.getState());
   }
 
   componentDidMount(){
@@ -28,19 +28,18 @@ class Header extends React.Component {
   }
 
   onChange(){
-    if(LoginStore.getState().authenticated){
-      this.setState(LoginStore.getState());
-    }
+    this.setState(LoginStore.getState());
   }
 
   logout(){
     this.setState({
-      isLogged: false
+      responseHeaders: {}
     });
+    LoginActions.logout(true);
   }
 
   render(){
-    if(this.state.authenticated){
+    if(this.state.responseHeaders.uid){
       return(
         <Navbar collapseOnSelect>
           <Navbar.Header>
@@ -52,7 +51,7 @@ class Header extends React.Component {
           <Navbar.Collapse>
             <Nav pullRight>
               <NavItem ><Link to="/dashboard">Dashboard</Link></NavItem>
-              <NavItem onClick={this.logout}><Link to="/signin">Logout</Link></NavItem>
+              <NavItem onClick = { this.logout }><Link to="/signin">Logout</Link></NavItem>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

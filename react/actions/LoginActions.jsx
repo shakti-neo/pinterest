@@ -9,8 +9,8 @@ class LoginActions {
     return date;
   }
 
-  clearSession(boolean){
-    return boolean;
+  logout(boolean){
+    return boolean
   }
 }
 

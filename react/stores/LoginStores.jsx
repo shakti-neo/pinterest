@@ -5,16 +5,13 @@ import { browserHistory } from "react-router";
 import Header from "../shared/Header.jsx"
 
 class LoginStore{
+
   constructor(){
-    this.exportPublicMethods({
-      setState: this.setState
-    });
-    this.responseHeaders = {};
-    this.authenticated = false;
+    this.responseHeaders = JSON.parse(localStorage.getItem('responseHeaders')) || {};
     this.bindListeners({
-    sendRequest: LoginActions.sendRequest,
-    checkExpiration: LoginActions.checkExpiration,
-    clearSession: LoginActions.clearSession
+      sendRequest: LoginActions.sendRequest,
+      checkExpiration: LoginActions.checkExpiration,
+      logout: LoginActions.logout
     });
   }
 
@@ -26,18 +23,21 @@ class LoginStore{
   .then((response) => {
     this.setState({
       responseHeaders: response.headers,
-      authenticated: true
     });
     browserHistory.push('/dashboard');
+    localStorage.setItem('responseHeaders', JSON.stringify(response.headers));
   })
   .catch((error) => {
     console.log(error);
   });
   }
 
-  clearSession(boolean){
-    this.authenticated = boolean;
-    this.responseHeaders = {};
+  logout(boolean){
+    this.setState({
+      responseHeaders: {}
+    })
+    localStorage.setItem('responseHeaders', JSON.stringify({}));
+    browserHistory.push('/');
   }
 
   checkExpiration(date){
