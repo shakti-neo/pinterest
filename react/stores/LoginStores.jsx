@@ -8,6 +8,7 @@ class LoginStore{
 
   constructor(){
     this.responseHeaders = JSON.parse(localStorage.getItem('responseHeaders')) || {};
+    this.responseData = JSON.parse(localStorage.getItem('responseData')) || {};
     this.bindListeners({
       sendRequest: LoginActions.sendRequest,
       checkExpiration: LoginActions.checkExpiration,
@@ -23,9 +24,11 @@ class LoginStore{
   .then((response) => {
     this.setState({
       responseHeaders: response.headers,
+      responseData: response.data.data
     });
     browserHistory.push('/dashboard');
     localStorage.setItem('responseHeaders', JSON.stringify(response.headers));
+    localStorage.setItem('responseData', JSON.stringify(response.data.data));
   })
   .catch((error) => {
     console.log(error);
@@ -34,9 +37,11 @@ class LoginStore{
 
   logout(boolean){
     this.setState({
-      responseHeaders: {}
+      responseHeaders: {},
+      responseData: {}
     })
     localStorage.setItem('responseHeaders', JSON.stringify({}));
+    localStorage.setItem('responseData', JSON.stringify({}));
     browserHistory.push('/');
   }
 

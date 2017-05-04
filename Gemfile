@@ -27,6 +27,7 @@ gem 'devise_token_auth'
 gem 'omniauth', '~> 1.6', '>= 1.6.1'
 gem 'puma'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'carrierwave', '~> 1.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

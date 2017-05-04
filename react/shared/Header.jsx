@@ -1,9 +1,11 @@
-import React from "react"
-import ReactDOM from "react-dom"
-import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from "react-bootstrap"
-import { Link } from "react-router"
-import LoginStore from "../stores/LoginStores.jsx"
-import LoginActions from "../actions/LoginActions.jsx"
+import React from "react";
+import ReactDOM from "react-dom";
+import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from "react-bootstrap";
+import { Link } from "react-router";
+import LoginStore from "../stores/LoginStores.jsx";
+import LoginActions from "../actions/LoginActions.jsx";
+import { Image } from "react-bootstrap";
+import { browserHistory } from "react-router";
 
 class Header extends React.Component {
   constructor(props){
@@ -11,6 +13,8 @@ class Header extends React.Component {
     this.state = {};
     this.logout = this.logout.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.navigateToProfile = this.navigateToProfile.bind(this);
+    this.avatarUrl = ( LoginStore.getState().responseData.avatar ) ? "http://localhost:3000" + LoginStore.getState().responseData.avatar.url : ""
   }
 
   shouldComponentUpdate(){
@@ -27,6 +31,10 @@ class Header extends React.Component {
     });
   }
 
+  navigateToProfile(){
+    browserHistory.push('/profile');
+  }
+
   onChange(){
     this.setState(LoginStore.getState());
   }
@@ -41,7 +49,7 @@ class Header extends React.Component {
   render(){
     if(this.state.responseHeaders.uid){
       return(
-        <Navbar collapseOnSelect>
+        <Navbar collapseOnSelect fixedTop = { true }>
           <Navbar.Header>
             <Navbar.Brand>
               <Link to="/">Pinterest</Link>
@@ -50,6 +58,7 @@ class Header extends React.Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav pullRight>
+              <NavItem onClick={ this.navigateToProfile } ><Image src= { this.avatarUrl } style={{ "width" : "35px", "height" : "35px" }} circle /></NavItem>
               <NavItem ><Link to="/dashboard">Dashboard</Link></NavItem>
               <NavItem onClick = { this.logout }><Link to="/signin">Logout</Link></NavItem>
             </Nav>
@@ -59,7 +68,7 @@ class Header extends React.Component {
     }
     else{
       return(
-        <Navbar collapseOnSelect>
+        <Navbar collapseOnSelect fixedTop = { true }>
           <Navbar.Header>
             <Navbar.Brand>
               <Link to="/">Pinterest</Link>

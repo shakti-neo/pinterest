@@ -51,7 +51,7 @@ class Dashboard extends React.Component {
   render(){
     return(
       <div>
-        <Grid bsClass="container">
+        <Grid bsClass="container" style={{ "margin-top" : "70px" }}>
           <ReactRpg imagesArray={this.state.images} columns={[ 1, 2, 3 ]} padding={10} />
         </Grid>
       </div>

@@ -21,7 +21,7 @@ class SignIn extends React.Component {
 
   render(){
     return(
-      <Grid bsClass="container">
+      <Grid bsClass="container" style={{ "margin-top" : "70px" }}>
         <Row className="show-grid">
           <Form horizontal onSubmit = { this.handleLogin }>
             <FormGroup controlId="formHorizontalEmail">

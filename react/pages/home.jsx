@@ -1,5 +1,6 @@
 import React from "react"
 import { Jumbotron, Button, Grid } from "react-bootstrap"
+import PinActions from '../actions/PinActions.jsx'
 
 class Home extends React.Component {
   constructor(){
