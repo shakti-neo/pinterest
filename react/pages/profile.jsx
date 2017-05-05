@@ -8,7 +8,7 @@ class Profile extends React.Component {
 
   render(){
     return(
-      <Grid style = {{ "margin-top" : "70px" }}>
+      <Grid style = {{ "marginTop" : "70px" }}>
         <h1>Profile page here</h1>
       </Grid>
     );

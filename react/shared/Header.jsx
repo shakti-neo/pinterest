@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from "react-bootstrap";
+import { Nav, Navbar, NavItem, NavDropdown, MenuItem, Grid } from "react-bootstrap";
 import { Link } from "react-router";
 import LoginStore from "../stores/LoginStores.jsx";
 import LoginActions from "../actions/LoginActions.jsx";
@@ -13,7 +13,9 @@ class Header extends React.Component {
     this.state = {};
     this.logout = this.logout.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.showUploadForm = this.showUploadForm.bind(this);
     this.navigateToProfile = this.navigateToProfile.bind(this);
+    this.goToUploadPage = this.goToUploadPage.bind(this);
     this.avatarUrl = ( LoginStore.getState().responseData.avatar ) ? "http://localhost:3000" + LoginStore.getState().responseData.avatar.url : ""
   }
 
@@ -37,6 +39,7 @@ class Header extends React.Component {
 
   onChange(){
     this.setState(LoginStore.getState());
+    this.avatarUrl = ( LoginStore.getState().responseData.avatar ) ? "http://localhost:3000" + LoginStore.getState().responseData.avatar.url : ""
   }
 
   logout(){
@@ -46,24 +49,35 @@ class Header extends React.Component {
     LoginActions.logout(true);
   }
 
+  showUploadForm(){
+    this.setState({
+      uploadFormShow: true
+    });
+  }
+
+  goToUploadPage(){
+    browserHistory.push("/upload_pin");
+  }
+
   render(){
     if(this.state.responseHeaders.uid){
       return(
-        <Navbar collapseOnSelect fixedTop = { true }>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <Link to="/">Pinterest</Link>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav pullRight>
-              <NavItem onClick={ this.navigateToProfile } ><Image src= { this.avatarUrl } style={{ "width" : "35px", "height" : "35px" }} circle /></NavItem>
-              <NavItem ><Link to="/dashboard">Dashboard</Link></NavItem>
-              <NavItem onClick = { this.logout }><Link to="/signin">Logout</Link></NavItem>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+          <Navbar collapseOnSelect fixedTop = { true }>
+            <Navbar.Header>
+              <Navbar.Brand>
+                <Link to="/">Pinterest</Link>
+              </Navbar.Brand>
+              <Navbar.Toggle />
+            </Navbar.Header>
+            <Navbar.Collapse>
+              <Nav pullRight>
+                <NavItem onClick = { this.goToUploadPage }><span className="glyphicon glyphicon-plus" aria-hidden="true"></span></NavItem>
+                <NavItem onClick={ this.navigateToProfile } ><Image src= { this.avatarUrl } style={{ "width" : "35px", "height" : "35px" }} circle /></NavItem>
+                <NavItem ><Link to="/dashboard">Dashboard</Link></NavItem>
+                <NavItem onClick = { this.logout }><Link to="/signin">Logout</Link></NavItem>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
       );
     }
     else{

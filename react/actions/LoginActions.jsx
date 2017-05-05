@@ -10,7 +10,11 @@ class LoginActions {
   }
 
   logout(boolean){
-    return boolean
+    return boolean;
+  }
+
+  getPins(){
+    return true;
   }
 }
 

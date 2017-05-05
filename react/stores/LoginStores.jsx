@@ -9,10 +9,12 @@ class LoginStore{
   constructor(){
     this.responseHeaders = JSON.parse(localStorage.getItem('responseHeaders')) || {};
     this.responseData = JSON.parse(localStorage.getItem('responseData')) || {};
+    this.images = [];
     this.bindListeners({
       sendRequest: LoginActions.sendRequest,
       checkExpiration: LoginActions.checkExpiration,
-      logout: LoginActions.logout
+      logout: LoginActions.logout,
+      getPins: LoginActions.getPins
     });
   }
 
@@ -52,6 +54,25 @@ class LoginStore{
     else{
       return true
     }
+  }
+
+  getPins(boolean){
+    axios.get('http://localhost:3000/pins', {
+        params: {
+          'access-token': this.responseHeaders["access-token"],
+          'client': this.responseHeaders["client"],
+          'expiry': this.responseHeaders["expiry"],
+          'uid': this.responseHeaders["uid"]
+        }
+    }).then((response) => {
+      debugger;
+      this.setState({
+        images: response.data
+      })
+    }).catch((error) => {
+      debugger;
+      console.log(error);
+    });
   }
 
 }

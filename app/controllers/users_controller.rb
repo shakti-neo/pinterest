@@ -43,7 +43,7 @@ class UsersController < ApplicationController
       if @user.update(update_user_params)
         format.json { render json: @user, status: :ok }
       else
-        format.json { render json: @pin.errors, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
