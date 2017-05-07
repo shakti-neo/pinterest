@@ -14,8 +14,10 @@ class LoginStore{
       sendRequest: LoginActions.sendRequest,
       checkExpiration: LoginActions.checkExpiration,
       logout: LoginActions.logout,
-      getPins: LoginActions.getPins
+      getPins: LoginActions.getPins,
+      uploadPin: LoginActions.uploadPin
     });
+    this.getNewToken = this.getNewToken.bind(this);
   }
 
   sendRequest(credentials){
@@ -24,6 +26,7 @@ class LoginStore{
     password: credentials.password
   })
   .then((response) => {
+    console.log(response);
     this.setState({
       responseHeaders: response.headers,
       responseData: response.data.data
@@ -65,12 +68,39 @@ class LoginStore{
           'uid': this.responseHeaders["uid"]
         }
     }).then((response) => {
-      debugger;
+      console.log(response);
       this.setState({
         images: response.data
       })
+      this.getNewToken(response);
     }).catch((error) => {
-      debugger;
+      console.log(error);
+    });
+  }
+
+  getNewToken(response){
+    if(response.headers["access-token"]){
+      this.setState({
+        responseHeaders: response.headers
+      });
+      localStorage.setItem('responseHeaders', JSON.stringify(response.headers));
+    }
+  }
+
+  uploadPin(data){
+    axios.post("http://localhost:3000/pins", {
+      pin:{
+        description: data.description,
+        pin_content: data.picture
+      },
+      'access-token': this.responseHeaders["access-token"],
+      'client': this.responseHeaders["client"],
+      'expiry': this.responseHeaders["expiry"],
+      'uid': this.responseHeaders["uid"],
+    }).then((response) => {
+      console.log(response);
+      this.getNewToken(response);
+    }).catch((error) => {
       console.log(error);
     });
   }

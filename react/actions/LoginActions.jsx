@@ -16,6 +16,10 @@ class LoginActions {
   getPins(){
     return true;
   }
+
+  uploadPin(data){
+    return data;
+  }
 }
 
 export default Alt.createActions(LoginActions);
