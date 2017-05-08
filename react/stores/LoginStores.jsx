@@ -15,9 +15,11 @@ class LoginStore{
       checkExpiration: LoginActions.checkExpiration,
       logout: LoginActions.logout,
       getPins: LoginActions.getPins,
-      uploadPin: LoginActions.uploadPin
+      uploadPin: LoginActions.uploadPin,
+      updateUserPicture: LoginActions.updateUserPicture
     });
     this.getNewToken = this.getNewToken.bind(this);
+    this.getNewUserData = this.getNewUserData.bind(this);
   }
 
   sendRequest(credentials){
@@ -26,7 +28,6 @@ class LoginStore{
     password: credentials.password
   })
   .then((response) => {
-    console.log(response);
     this.setState({
       responseHeaders: response.headers,
       responseData: response.data.data
@@ -68,9 +69,8 @@ class LoginStore{
           'uid': this.responseHeaders["uid"]
         }
     }).then((response) => {
-      console.log(response);
       this.setState({
-        images: response.data
+        images: response.data.map(function(pin) { return [ "http://localhost:3000" + pin.pin_content.url, 'Hello', "http://localhost:3000" + pin.pin_content.url ] })
       })
       this.getNewToken(response);
     }).catch((error) => {
@@ -96,13 +96,38 @@ class LoginStore{
       'access-token': this.responseHeaders["access-token"],
       'client': this.responseHeaders["client"],
       'expiry': this.responseHeaders["expiry"],
-      'uid': this.responseHeaders["uid"],
+      'uid': this.responseHeaders["uid"]
     }).then((response) => {
-      console.log(response);
       this.getNewToken(response);
+      browserHistory.push("/dashboard");
     }).catch((error) => {
       console.log(error);
     });
+  }
+
+  updateUserPicture(file){
+    let user_id = this.responseData.id;
+    let route = "http://localhost:3000/users/" + user_id
+    axios.put(route, {
+      avatar: file,
+      'access-token': this.responseHeaders["access-token"],
+      'client': this.responseHeaders["client"],
+      'expiry': this.responseHeaders["expiry"],
+      'uid': this.responseHeaders["uid"]
+    }).then((response) => {
+      this.getNewToken(response);
+      this.getNewUserData(response);
+      location.reload();
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  getNewUserData(response){
+    this.setState({
+      responseData: response.data
+    });
+    localStorage.setItem('responseData', JSON.stringify(response.data));
   }
 
 }

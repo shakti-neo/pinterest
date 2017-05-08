@@ -10,13 +10,15 @@ import { browserHistory } from "react-router";
 class Header extends React.Component {
   constructor(props){
     super(props)
-    this.state = {};
     this.logout = this.logout.bind(this);
-    this.onChange = this.onChange.bind(this);
     this.showUploadForm = this.showUploadForm.bind(this);
     this.navigateToProfile = this.navigateToProfile.bind(this);
     this.goToUploadPage = this.goToUploadPage.bind(this);
-    this.avatarUrl = ( LoginStore.getState().responseData.avatar ) ? "http://localhost:3000" + LoginStore.getState().responseData.avatar.url : ""
+    this.onChange = this.onChange.bind(this);
+    this.state = {
+      responseHeaders: {},
+      responseData: {}
+    }
   }
 
   shouldComponentUpdate(){
@@ -24,7 +26,10 @@ class Header extends React.Component {
   }
 
   componentWillMount(){
-    this.setState(LoginStore.getState());
+    this.setState({
+      responseHeaders: LoginStore.getState().responseHeaders,
+      responseData: LoginStore.getState().responseData
+    });
   }
 
   componentDidMount(){
@@ -37,14 +42,10 @@ class Header extends React.Component {
     browserHistory.push('/profile');
   }
 
-  onChange(){
-    this.setState(LoginStore.getState());
-    this.avatarUrl = ( LoginStore.getState().responseData.avatar ) ? "http://localhost:3000" + LoginStore.getState().responseData.avatar.url : ""
-  }
-
   logout(){
     this.setState({
-      responseHeaders: {}
+      responseHeaders: {},
+      responseData: {}
     });
     LoginActions.logout(true);
   }
@@ -59,8 +60,15 @@ class Header extends React.Component {
     browserHistory.push("/upload_pin");
   }
 
+  onChange(){
+    this.setState({
+      responseHeaders: LoginStore.getState().responseHeaders,
+      responseData: LoginStore.getState().responseData
+    });
+  }
+
   render(){
-    if(this.state.responseHeaders.uid){
+    if(this.state.responseData.id){
       return(
           <Navbar collapseOnSelect fixedTop = { true }>
             <Navbar.Header>
@@ -72,7 +80,7 @@ class Header extends React.Component {
             <Navbar.Collapse>
               <Nav pullRight>
                 <NavItem onClick = { this.goToUploadPage }><span className="glyphicon glyphicon-plus" aria-hidden="true"></span></NavItem>
-                <NavItem onClick={ this.navigateToProfile } ><Image src= { this.avatarUrl } style={{ "width" : "35px", "height" : "35px" }} circle /></NavItem>
+                <NavItem onClick={ this.navigateToProfile } ><Image src= { "http://localhost:3000" + this.state.responseData.avatar.url } style={{ "width" : "35px", "height" : "35px" }} circle /></NavItem>
                 <NavItem ><Link to="/dashboard">Dashboard</Link></NavItem>
                 <NavItem onClick = { this.logout }><Link to="/signin">Logout</Link></NavItem>
               </Nav>

@@ -20,6 +20,10 @@ class LoginActions {
   uploadPin(data){
     return data;
   }
+
+  updateUserPicture(file){
+    return file;
+  }
 }
 
 export default Alt.createActions(LoginActions);
