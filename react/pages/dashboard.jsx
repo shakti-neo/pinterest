@@ -1,9 +1,9 @@
 import React from "react";
-import { Grid } from "react-bootstrap";
+import { Grid, Nav, NavItem, Row, Col } from "react-bootstrap";
 import LoginActions from "../actions/LoginActions.jsx";
 import LoginStore from "../stores/LoginStores.jsx";
-import {Waterfall} from 'thousanday-react';
-
+import { browserHistory } from 'react-router';
+import PinsGallery from "../components/PinsGallery.jsx";
 
 class Dashboard extends React.Component {
 
@@ -11,9 +11,6 @@ class Dashboard extends React.Component {
     super(props);
     LoginActions.getPins();
     this.onChange = this.onChange.bind(this);
-    this.state = {
-      images: []
-    }
   }
 
   componentDidMount(){
@@ -24,13 +21,13 @@ class Dashboard extends React.Component {
 
   componentWillMount(){
     this.state = {
-      images: LoginStore.getState().images
+      pins: LoginStore.getState().pins
     }
   }
 
   onChange(){
     this.setState({
-      images: LoginStore.getState().images
+      pins: LoginStore.getState().pins
     });
   }
 
@@ -38,7 +35,15 @@ class Dashboard extends React.Component {
     return(
       <div>
         <Grid bsClass="container" style={{ "marginTop" : "70px" }}>
-          <Waterfall column="3" image={this.state.images} height="400px"/>
+          <Row>
+            <Nav bsStyle="tabs">
+              <NavItem >Pins</NavItem>
+              <NavItem >Board</NavItem>
+            </Nav>
+          </Row>
+          <Row style = {{ "marginTop" : "10px" }}>
+            <PinsGallery pins = { this.state.pins } />
+          </Row>
         </Grid>
       </div>
     );

@@ -9,14 +9,20 @@ class LoginStore{
   constructor(){
     this.responseHeaders = JSON.parse(localStorage.getItem('responseHeaders')) || {};
     this.responseData = JSON.parse(localStorage.getItem('responseData')) || {};
-    this.images = [];
+    this.pins = [];
+    this.boards = [];
+    this.board = {};
+    this.board_pins = [];
     this.bindListeners({
       sendRequest: LoginActions.sendRequest,
       checkExpiration: LoginActions.checkExpiration,
       logout: LoginActions.logout,
       getPins: LoginActions.getPins,
-      uploadPin: LoginActions.uploadPin,
-      updateUserPicture: LoginActions.updateUserPicture
+      createPin: LoginActions.createPin,
+      updateUserPicture: LoginActions.updateUserPicture,
+      createNewBoard: LoginActions.createNewBoard,
+      getBoards: LoginActions.getBoards,
+      getBoard: LoginActions.getBoard
     });
     this.getNewToken = this.getNewToken.bind(this);
     this.getNewUserData = this.getNewUserData.bind(this);
@@ -70,7 +76,7 @@ class LoginStore{
         }
     }).then((response) => {
       this.setState({
-        images: response.data.map(function(pin) { return [ "http://localhost:3000" + pin.pin_content.url, 'Hello', "http://localhost:3000" + pin.pin_content.url ] })
+        pins: response.data
       })
       this.getNewToken(response);
     }).catch((error) => {
@@ -87,11 +93,12 @@ class LoginStore{
     }
   }
 
-  uploadPin(data){
+  createPin(data){
     axios.post("http://localhost:3000/pins", {
       pin:{
         description: data.description,
-        pin_content: data.picture
+        pin_content: data.picture,
+        board_id: data.board_id
       },
       'access-token': this.responseHeaders["access-token"],
       'client': this.responseHeaders["client"],
@@ -128,6 +135,65 @@ class LoginStore{
       responseData: response.data
     });
     localStorage.setItem('responseData', JSON.stringify(response.data));
+  }
+
+  createNewBoard(params){
+    axios.post("http://localhost:3000/boards", {
+      board: {
+        name: params.name,
+        description: params.description,
+        cover: params.cover
+      },
+      'access-token': this.responseHeaders["access-token"],
+      'client': this.responseHeaders["client"],
+      'expiry': this.responseHeaders["expiry"],
+      'uid': this.responseHeaders["uid"]
+    }).then((response) => {
+      this.getNewToken(response);
+      browserHistory.push("/upload_pin");
+    }).catch((error) => {
+      alert("Unable to create board");
+    });
+  }
+
+  getBoards(boolean){
+    axios.get("http://localhost:3000/boards", {
+      params: {
+      'access-token': this.responseHeaders["access-token"],
+      'client': this.responseHeaders["client"],
+      'expiry': this.responseHeaders["expiry"],
+      'uid': this.responseHeaders["uid"]
+      }
+    }).then((response) => {
+      console.log(response);
+      this.setState({
+        boards: response.data
+      });
+      this.getNewToken(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  getBoard(id){
+    let url = "http://localhost:3000/boards/" + id
+    axios.get(url, {
+      params: {
+      'access-token': this.responseHeaders["access-token"],
+      'client': this.responseHeaders["client"],
+      'expiry': this.responseHeaders["expiry"],
+      'uid': this.responseHeaders["uid"]
+      }
+    }).then((response) => {
+      console.log(response);
+      this.setState({
+        board: response.data.board,
+        board_pins: response.data.pins
+      });
+      this.getNewToken(response);
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
 }

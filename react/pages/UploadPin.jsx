@@ -1,35 +1,92 @@
 import React from "react";
 import { Grid } from "react-bootstrap";
-import { FormGroup, ControlLabel, FormControl, FieldGroup, Button } from "react-bootstrap";
+import { FormGroup, ControlLabel, FormControl, FieldGroup, Button, Modal, Col, Row, Form, Image } from "react-bootstrap";
 import axios from "axios";
 import LoginActions from "../actions/LoginActions.jsx";
-import Dropzone from 'react-dropzone';
+import LoginStore from "../stores/LoginStores.jsx";
+import StackGrid from "react-stack-grid";
+import Gallery from "../components/Gallery.jsx";
 
 class UploadPin extends React.Component {
   constructor(props){
     super(props);
-    this.formSubmit = this.formSubmit.bind(this);
+    this.toggleNewBoardForm = this.toggleNewBoardForm.bind(this);
+    this.createNewBoard = this.createNewBoard.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
-  formSubmit(event){
-    event.preventDefault();
-    let file = event.target.picture.files[0];
-    let reader = new FileReader();
-    reader.onload = function(event){
-      LoginActions.uploadPin({
-        picture: event.target.result,
-      });
+  onChange(){
+    this.setState({
+      boards: LoginStore.getState().boards
+    });
+  }
+
+  toggleNewBoardForm(){
+    this.setState({
+      showNewBoardForm: !this.state.showNewBoardForm
+    });
+  }
+
+  componentWillMount(){
+    console.log("Before Mounting");
+    this.state = {
+      showNewBoardForm: false,
+      boards: []
     }
-    reader.readAsDataURL(file);
+    LoginActions.getBoards();
+  }
+
+  componentDidMount(){
+    console.log("Mounted");
+    LoginStore.listen(() => {
+      console.log("Loginstore state changed");
+      this.onChange();
+    });
+  }
+
+  createNewBoard(event){
+    event.preventDefault();
+    let board_name = event.target.board_name.value;
+    let board_description = event.target.board_description.value;
+    LoginActions.createNewBoard({
+      name: board_name,
+      description: board_description
+    });
+    event.target.board_name.value = "";
+    event.target.board_description.value = "";
+    LoginActions.getBoards();
+    this.toggleNewBoardForm();
   }
 
   render(){
     return(
       <Grid style={{ "marginTop" : "75px" }}>
-        <form onSubmit = { this.formSubmit }>
-          <input bsStyle="primary" type="file" name="picture" accept="image/*" />
-          <Button type="submit" bsStyle="primary" bsSize="large" active>Upload Pin</Button>
-        </form>
+        <Row>
+          <Button onClick = { this.toggleNewBoardForm } bsStyle="primary">Create new Board</Button>
+          <Modal show = { this.state.showNewBoardForm }>
+
+            <Modal.Header>
+              <Modal.Title>Create new board</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+              <form onSubmit = { this.createNewBoard }>
+                <FormGroup bsSize="large">
+                  <FormControl name = "board_name" type="text" placeholder="Board name" />
+                </FormGroup>
+                <FormGroup>
+                  <FormControl name="board_description" type="text" placeholder="Board description" />
+                </FormGroup>
+                <Button type="submit" bsStyle="primary" bsSize="large" active>Upload Pin</Button>
+                <Button onClick = { this.toggleNewBoardForm } bsStyle="primary" bsSize="large" active>Cancel</Button>
+              </form>
+            </Modal.Body>
+
+          </Modal>
+        </Row>
+        <Row style={{ "marginTop" : "20px" }}>
+          <Gallery boards = { this.state.boards } />
+        </Row>
       </Grid>
     );
   }

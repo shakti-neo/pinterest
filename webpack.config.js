@@ -1,9 +1,11 @@
 var path = require("path");
+var base_url = path.resolve(__dirname, "react");
 module.exports = {
-    entry: path.resolve(__dirname, "react/app.jsx"),
+    entry: path.resolve(base_url, "app.jsx"),
     output: {
-        path: path.resolve(__dirname, "react"),
-        filename: "bundle.js"
+        path: base_url,
+        filename: "bundle.js",
+        publicPath: "/"
     },
     module: {
         loaders: [
@@ -17,6 +19,8 @@ module.exports = {
     },
     devServer: {
       port: 4000,
-      historyApiFallback: true
+      historyApiFallback: true,
+      contentBase: './',
+      hot: true
     }
 };

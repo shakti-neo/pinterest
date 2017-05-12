@@ -8,7 +8,8 @@ import Main from "./layout/main.jsx";
 import { Router, Route, IndexRoute, browserHistory } from "react-router";
 import Dashboard from "./pages/dashboard.jsx";
 import Profile from "./pages/profile.jsx";
-import UploadPin from "./pages/UploadPin.jsx"
+import UploadPin from "./pages/UploadPin.jsx";
+import Board from "./pages/Board.jsx";
 
 ReactDOM.render(
   <Router history={browserHistory}>
@@ -19,6 +20,7 @@ ReactDOM.render(
       <Route path="dashboard" component={ Dashboard } />
       <Route path="profile" component={ Profile }/>
       <Route path="upload_pin" component={ UploadPin }/>
+      <Route path="board/:id" component={ Board } />
     </Route>
   </Router >,
   document.getElementById("app")

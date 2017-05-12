@@ -17,12 +17,24 @@ class LoginActions {
     return true;
   }
 
-  uploadPin(data){
+  createPin(data){
     return data;
   }
 
   updateUserPicture(file){
     return file;
+  }
+
+  createNewBoard(params){
+    return params;
+  }
+
+  getBoards(){
+    return true;
+  }
+
+  getBoard(id){
+    return id;
   }
 }
 

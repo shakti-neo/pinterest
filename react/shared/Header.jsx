@@ -70,22 +70,24 @@ class Header extends React.Component {
   render(){
     if(this.state.responseData.id){
       return(
-          <Navbar collapseOnSelect fixedTop = { true }>
-            <Navbar.Header>
-              <Navbar.Brand>
-                <Link to="/">Pinterest</Link>
-              </Navbar.Brand>
-              <Navbar.Toggle />
-            </Navbar.Header>
-            <Navbar.Collapse>
-              <Nav pullRight>
-                <NavItem onClick = { this.goToUploadPage }><span className="glyphicon glyphicon-plus" aria-hidden="true"></span></NavItem>
-                <NavItem onClick={ this.navigateToProfile } ><Image src= { "http://localhost:3000" + this.state.responseData.avatar.url } style={{ "width" : "35px", "height" : "35px" }} circle /></NavItem>
-                <NavItem ><Link to="/dashboard">Dashboard</Link></NavItem>
-                <NavItem onClick = { this.logout }><Link to="/signin">Logout</Link></NavItem>
-              </Nav>
-            </Navbar.Collapse>
-          </Navbar>
+          <Grid>
+            <Navbar collapseOnSelect fixedTop = { true }>
+              <Navbar.Header>
+                <Navbar.Brand>
+                  <Link to="/">Pinterest</Link>
+                </Navbar.Brand>
+                <Navbar.Toggle />
+              </Navbar.Header>
+              <Navbar.Collapse>
+                <Nav pullRight>
+                  <NavItem onClick = { this.goToUploadPage }><span className="glyphicon glyphicon-plus" aria-hidden="true"></span></NavItem>
+                  <NavItem onClick={ this.navigateToProfile } ><Image src= { "http://localhost:3000" + this.state.responseData.avatar.url } style={{ "width" : "35px", "height" : "35px" }} circle /></NavItem>
+                  <NavItem ><Link to="/dashboard">Dashboard</Link></NavItem>
+                  <NavItem onClick = { this.logout }><Link to="/signin">Logout</Link></NavItem>
+                </Nav>
+              </Navbar.Collapse>
+            </Navbar>
+          </Grid>
       );
     }
     else{

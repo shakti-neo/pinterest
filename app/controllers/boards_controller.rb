@@ -4,12 +4,20 @@ class BoardsController < ApplicationController
   # GET /boards
   # GET /boards.json
   def index
-    @boards = Board.all
+    @boards = current_user.boards.all
+    respond_to do |format|
+      format.json { render json: @boards, status: :ok }
+    end
   end
 
   # GET /boards/1
   # GET /boards/1.json
   def show
+    @board = Board.find(params[:id])
+    @pins = @board.pins
+    respond_to do |format|
+      format.json { render json: { board: @board, pins: @pins }, status: :ok }
+    end
   end
 
   # GET /boards/new
@@ -25,7 +33,7 @@ class BoardsController < ApplicationController
   # POST /boards.json
   def create
     @board = Board.new(board_params)
-
+    @board.users << current_user
     respond_to do |format|
       if @board.save
         format.html { redirect_to @board, notice: 'Board was successfully created.' }
@@ -69,6 +77,6 @@ class BoardsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def board_params
-      params.fetch(:board, {})
+      params.fetch(:board, {}).permit(:name, :description, :cover)
     end
 end
