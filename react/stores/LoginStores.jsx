@@ -13,6 +13,7 @@ class LoginStore{
     this.boards = [];
     this.board = {};
     this.board_pins = [];
+    this.pin_data = {};
     this.bindListeners({
       sendRequest: LoginActions.sendRequest,
       checkExpiration: LoginActions.checkExpiration,
@@ -22,7 +23,8 @@ class LoginStore{
       updateUserPicture: LoginActions.updateUserPicture,
       createNewBoard: LoginActions.createNewBoard,
       getBoards: LoginActions.getBoards,
-      getBoard: LoginActions.getBoard
+      getBoard: LoginActions.getBoard,
+      showPin: LoginActions.showPin
     });
     this.getNewToken = this.getNewToken.bind(this);
     this.getNewUserData = this.getNewUserData.bind(this);
@@ -191,6 +193,26 @@ class LoginStore{
         board_pins: response.data.pins
       });
       this.getNewToken(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  showPin(id){
+    let url = "http://localhost:3000/pins/" + id
+    axios.get(url, {
+      params: {
+      'access-token': this.responseHeaders["access-token"],
+      'client': this.responseHeaders["client"],
+      'expiry': this.responseHeaders["expiry"],
+      'uid': this.responseHeaders["uid"]
+      }
+    }).then((response) => {
+      this.setState({
+        pin_data: response.data
+      });
+      this.getNewToken(response);
+      console.log(response);
     }).catch((error) => {
       console.log(error);
     });

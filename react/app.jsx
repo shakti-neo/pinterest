@@ -10,6 +10,7 @@ import Dashboard from "./pages/dashboard.jsx";
 import Profile from "./pages/profile.jsx";
 import UploadPin from "./pages/UploadPin.jsx";
 import Board from "./pages/Board.jsx";
+import Pin from "./pages/Pin.jsx";
 
 ReactDOM.render(
   <Router history={browserHistory}>
@@ -21,6 +22,7 @@ ReactDOM.render(
       <Route path="profile" component={ Profile }/>
       <Route path="upload_pin" component={ UploadPin }/>
       <Route path="board/:id" component={ Board } />
+      <Route path="pin/:id" component={ Pin } />
     </Route>
   </Router >,
   document.getElementById("app")

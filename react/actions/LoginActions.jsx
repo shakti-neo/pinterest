@@ -36,6 +36,10 @@ class LoginActions {
   getBoard(id){
     return id;
   }
+
+  showPin(id){
+    return id;
+  }
 }
 
 export default Alt.createActions(LoginActions);

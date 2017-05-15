@@ -29,6 +29,7 @@ gem 'puma'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'carrierwave', '~> 1.0'
 gem 'carrierwave-base64'
+gem 'acts_as_commentable_with_threading'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
