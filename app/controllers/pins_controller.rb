@@ -14,7 +14,7 @@ class PinsController < ApplicationController
   # GET /pins/1.json
   def show
     @uploader = @pin.board.users.first
-    @comments = @pin.comment_threads
+    @comments = @pin.comments.includes(:user).as_json(:include => {:user => {:only => [:avatar, :email]}})
     respond_to do |format|
       format.json { render json: { :pin => @pin, :uploader => @uploader, :comments => @comments }, status: :ok }
     end

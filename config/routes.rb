@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :users, :defaults => { :format => :json }
   resources :pins, :defaults => { :format => :json }
   resources :boards, :defaults => { :format => :json }
+  resources :comments, :defaults => { :format => :json }
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

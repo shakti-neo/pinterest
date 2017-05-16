@@ -24,7 +24,8 @@ class LoginStore{
       createNewBoard: LoginActions.createNewBoard,
       getBoards: LoginActions.getBoards,
       getBoard: LoginActions.getBoard,
-      showPin: LoginActions.showPin
+      showPin: LoginActions.showPin,
+      createComment: LoginActions.createComment
     });
     this.getNewToken = this.getNewToken.bind(this);
     this.getNewUserData = this.getNewUserData.bind(this);
@@ -211,8 +212,29 @@ class LoginStore{
       this.setState({
         pin_data: response.data
       });
+      console.log(response)
       this.getNewToken(response);
       console.log(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  createComment(data){
+    let url = "/pin/" + data.comment_pin_id;
+    axios.post('http://localhost:3000/comments', {
+      comment: {
+        comment: data.comment_body,
+        pin_id: data.comment_pin_id
+      },
+      'access-token': this.responseHeaders["access-token"],
+      'client': this.responseHeaders["client"],
+      'expiry': this.responseHeaders["expiry"],
+      'uid': this.responseHeaders["uid"]
+    }).then((response) => {
+      console.log(response);
+      this.getNewToken(response);
+      browserHistory.push(url);
     }).catch((error) => {
       console.log(error);
     });

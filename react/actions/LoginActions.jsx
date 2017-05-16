@@ -40,6 +40,10 @@ class LoginActions {
   showPin(id){
     return id;
   }
+
+  createComment(data){
+    return data;
+  }
 }
 
 export default Alt.createActions(LoginActions);
