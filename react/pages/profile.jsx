@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Col, Well, Row } from "react-bootstrap";
-import LoginStore from "../stores/LoginStores.jsx";
-import LoginActions from "../actions/LoginActions.jsx";
+import ApplicationStore from "../stores/ApplicationStore.jsx";
+import ApplicationActions from "../actions/ApplicationActions.jsx";
 import { Updateprofile } from 'thousanday-react';
 
 class Profile extends React.Component {
@@ -15,14 +15,14 @@ class Profile extends React.Component {
 
   componentWillMount(){
     this.state = {
-      userProfile: LoginStore.getState().responseData
+      userProfile: ApplicationStore.getState().responseData
     }
   }
 
   componentDidMount(){
-    LoginStore.listen(() => {
+    ApplicationStore.listen(() => {
       this.setState({
-        userProfile: LoginStore.getState().responseData
+        userProfile: ApplicationStore.getState().responseData
       });
     });
   }
@@ -30,7 +30,7 @@ class Profile extends React.Component {
   changeProfilePic(finalUrl){
     let reader = new FileReader();
     reader.onload = function(event){
-      LoginActions.updateUserPicture(event.target.result);
+      ApplicationActions.updateUserPicture(event.target.result);
     }
     reader.readAsDataURL(finalUrl);
   }

@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Row, Image, Col, FormGroup, FormControl, Button } from 'react-bootstrap';
-import LoginActions from "../actions/LoginActions.jsx";
-import LoginStore from "../stores/LoginStores.jsx";
+import ApplicationActions from "../actions/ApplicationActions.jsx";
+import ApplicationStore from "../stores/ApplicationStore.jsx";
 import CommentList from "../components/CommentList.jsx";
 
 class Pin extends React.Component {
@@ -19,20 +19,20 @@ class Pin extends React.Component {
       uploader: {},
       comments: []
     }
-    LoginActions.showPin(this.props.params.id);
+    ApplicationActions.showPin(this.props.params.id);
   }
 
   componentDidMount() {
-    LoginStore.listen(() => {
+    ApplicationStore.listen(() => {
       this.onChange();
     });
   }
 
   onChange(){
     this.setState({
-      pin: LoginStore.getState().pin_data.pin || {},
-      uploader: LoginStore.getState().pin_data.uploader || {},
-      comments: LoginStore.getState().pin_data.comments || []
+      pin: ApplicationStore.getState().pin_data.pin || {},
+      uploader: ApplicationStore.getState().pin_data.uploader || {},
+      comments: ApplicationStore.getState().pin_data.comments || []
     });
   }
 
@@ -46,10 +46,11 @@ class Pin extends React.Component {
 
   createComment(event){
     event.preventDefault();
-    LoginActions.createComment({
+    ApplicationActions.createComment({
       comment_body: event.target.comment.value,
       comment_pin_id: this.state.pin.id
     });
+    event.target.comment.value = "";
   }
 
   render(){

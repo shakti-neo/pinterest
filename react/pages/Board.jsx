@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Row, Col, Button, Modal, FormGroup, FormControl } from "react-bootstrap";
-import LoginActions from "../actions/LoginActions.jsx";
-import LoginStore from "../stores/LoginStores.jsx";
+import ApplicationActions from "../actions/ApplicationActions.jsx";
+import ApplicationStore from "../stores/ApplicationStore.jsx";
 import PinsGallery from "../components/PinsGallery.jsx";
 
 class Board extends React.Component {
@@ -14,8 +14,8 @@ class Board extends React.Component {
 
   onChange() {
     this.setState({
-      board: LoginStore.getState().board,
-      pins: LoginStore.getState().board_pins
+      board: ApplicationStore.getState().board,
+      pins: ApplicationStore.getState().board_pins
     });
   }
 
@@ -25,11 +25,11 @@ class Board extends React.Component {
       board: {},
       pins: []
     }
-    LoginActions.getBoard(this.props.params.id);
+    ApplicationActions.getBoard(this.props.params.id);
   }
 
   componentDidMount() {
-    LoginStore.listen(() => {
+    ApplicationStore.listen(() => {
       this.onChange();
     })
   }
@@ -40,7 +40,7 @@ class Board extends React.Component {
     let reader = new FileReader();
     let pin_content = event.target.pin_content.files[0]
     reader.onload = (event) => {
-      LoginActions.createPin({
+      ApplicationActions.createPin({
         picture: event.target.result,
         description: pin_description,
         board_id: this.state.board.id

@@ -5,7 +5,7 @@ import { browserHistory } from "react-router";
 
 const { scaleDown } = transitions;
 
-class PinsGallery extends React.Component {
+class DashboardPinsGallery extends React.Component {
 
   constructor(props) {
     super(props);
@@ -30,9 +30,12 @@ class PinsGallery extends React.Component {
       >
         { this.props.pins.map((pin) => {
         return(
-        <div>
+        <div style={{ "marginTop" : "10px", "marginBottom" : "10px" }}>
           <Image onClick={ () => { this.showPin(pin.id) } } src = { "http://localhost:3000" + pin.pin_content.url } responsive />
-          <b> { pin.description }</b>
+          <div style={{ "marginTop" : "10px" }}>
+            <Image src= { "http://localhost:3000" + pin.user.avatar.url } style={{ "width" : "25px", "height" : "25px" }} circle />
+            <b> { pin.description }</b>
+          </div>
         </div>
         )
         }) }
@@ -41,4 +44,4 @@ class PinsGallery extends React.Component {
   }
 }
 
-export default PinsGallery;
+export default DashboardPinsGallery;

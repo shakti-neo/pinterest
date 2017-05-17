@@ -4,7 +4,7 @@ class PinsController < ApplicationController
   # GET /pins
   # GET /pins.json
   def index
-    @pins = Pin.all
+    @pins = Pin.all.includes(:user).as_json(:include => {:user => {:only => [:email, :avatar]}})
     respond_to do |format|
       format.json { render json: @pins, status: :ok }
     end
@@ -13,8 +13,8 @@ class PinsController < ApplicationController
   # GET /pins/1
   # GET /pins/1.json
   def show
-    @uploader = @pin.board.users.first
-    @comments = @pin.comments.includes(:user).as_json(:include => {:user => {:only => [:avatar, :email]}})
+    @uploader = @pin.user
+    @comments = @pin.comments.reorder('created_at DESC').includes(:user).as_json(:include => {:user => {:only => [:avatar, :email]}})
     respond_to do |format|
       format.json { render json: { :pin => @pin, :uploader => @uploader, :comments => @comments }, status: :ok }
     end
@@ -33,6 +33,7 @@ class PinsController < ApplicationController
   # POST /pins.json
   def create
     @pin = Pin.new(pin_params)
+    @pin.user = current_user
     respond_to do |format|
       if @pin.save
         format.html { redirect_to @pin, notice: 'Pin was successfully created.' }

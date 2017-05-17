@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
           :omniauthable
   include DeviseTokenAuth::Concerns::User
   mount_base64_uploader :avatar, AvatarUploader
-  has_and_belongs_to_many :boards
+  has_many :boards
+  has_many :pins, through: :boards
 
   after_create :assign_default_picture
 

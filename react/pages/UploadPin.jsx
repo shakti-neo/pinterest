@@ -2,8 +2,8 @@ import React from "react";
 import { Grid } from "react-bootstrap";
 import { FormGroup, ControlLabel, FormControl, FieldGroup, Button, Modal, Col, Row, Form, Image } from "react-bootstrap";
 import axios from "axios";
-import LoginActions from "../actions/LoginActions.jsx";
-import LoginStore from "../stores/LoginStores.jsx";
+import ApplicationActions from "../actions/ApplicationActions.jsx";
+import ApplicationStore from "../stores/ApplicationStore.jsx";
 import StackGrid from "react-stack-grid";
 import Gallery from "../components/Gallery.jsx";
 
@@ -17,7 +17,7 @@ class UploadPin extends React.Component {
 
   onChange(){
     this.setState({
-      boards: LoginStore.getState().boards
+      boards: ApplicationStore.getState().boards
     });
   }
 
@@ -33,13 +33,13 @@ class UploadPin extends React.Component {
       showNewBoardForm: false,
       boards: []
     }
-    LoginActions.getBoards();
+    ApplicationActions.getBoards();
   }
 
   componentDidMount(){
     console.log("Mounted");
-    LoginStore.listen(() => {
-      console.log("Loginstore state changed");
+    ApplicationStore.listen(() => {
+      console.log("ApplicationStore state changed");
       this.onChange();
     });
   }
@@ -48,13 +48,13 @@ class UploadPin extends React.Component {
     event.preventDefault();
     let board_name = event.target.board_name.value;
     let board_description = event.target.board_description.value;
-    LoginActions.createNewBoard({
+    ApplicationActions.createNewBoard({
       name: board_name,
       description: board_description
     });
     event.target.board_name.value = "";
     event.target.board_description.value = "";
-    LoginActions.getBoards();
+    ApplicationActions.getBoards();
     this.toggleNewBoardForm();
   }
 

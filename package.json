@@ -47,6 +47,7 @@
     "react-stack-grid": "^0.2.0",
     "react-uikit-comment": "^2.0.2",
     "react-uikit-comment-list": "^2.0.1",
+    "shuffle-array": "^1.0.1",
     "thousanday-react": "^0.9.6"
   }
 }

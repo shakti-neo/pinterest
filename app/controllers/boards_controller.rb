@@ -33,11 +33,11 @@ class BoardsController < ApplicationController
   # POST /boards.json
   def create
     @board = Board.new(board_params)
-    @board.users << current_user
+    @board.user = current_user
     respond_to do |format|
       if @board.save
         format.html { redirect_to @board, notice: 'Board was successfully created.' }
-        format.json { render :show, status: :created, location: @board }
+        format.json { render json: @board, status: :created }
       else
         format.html { render :new }
         format.json { render json: @board.errors, status: :unprocessable_entity }

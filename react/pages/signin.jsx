@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, FormGroup, FormControl, Button, Col, ControlLabel, Checkbox, Row, Grid } from "react-bootstrap";
-import LoginActions from "../actions/LoginActions.jsx"
-import LoginStore from "../stores/LoginStores.jsx"
+import ApplicationActions from "../actions/ApplicationActions.jsx"
+import ApplicationStore from "../stores/ApplicationStore.jsx"
 
 class SignIn extends React.Component {
   constructor(props){
@@ -16,7 +16,7 @@ class SignIn extends React.Component {
       password: event.target.password.value
     }
     this.setState(state);
-    LoginActions.sendRequest(state);
+    ApplicationActions.sendRequest(state);
   }
 
   render(){

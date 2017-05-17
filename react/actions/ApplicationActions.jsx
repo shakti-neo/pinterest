@@ -1,6 +1,6 @@
 import Alt from "../Alt.jsx"
 
-class LoginActions {
+class ApplicationActions {
   sendRequest(credentials){
     return credentials;
   }
@@ -46,4 +46,4 @@ class LoginActions {
   }
 }
 
-export default Alt.createActions(LoginActions);
+export default Alt.createActions(ApplicationActions);

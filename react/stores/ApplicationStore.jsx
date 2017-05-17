@@ -1,10 +1,9 @@
 import Alt from "../Alt.jsx";
-import LoginActions from "../actions/LoginActions.jsx";
+import ApplicationActions from "../actions/ApplicationActions.jsx";
 import axios from "axios";
 import { browserHistory } from "react-router";
-import Header from "../shared/Header.jsx"
 
-class LoginStore{
+class ApplicationStore{
 
   constructor(){
     this.responseHeaders = JSON.parse(localStorage.getItem('responseHeaders')) || {};
@@ -15,17 +14,17 @@ class LoginStore{
     this.board_pins = [];
     this.pin_data = {};
     this.bindListeners({
-      sendRequest: LoginActions.sendRequest,
-      checkExpiration: LoginActions.checkExpiration,
-      logout: LoginActions.logout,
-      getPins: LoginActions.getPins,
-      createPin: LoginActions.createPin,
-      updateUserPicture: LoginActions.updateUserPicture,
-      createNewBoard: LoginActions.createNewBoard,
-      getBoards: LoginActions.getBoards,
-      getBoard: LoginActions.getBoard,
-      showPin: LoginActions.showPin,
-      createComment: LoginActions.createComment
+      sendRequest: ApplicationActions.sendRequest,
+      checkExpiration: ApplicationActions.checkExpiration,
+      logout: ApplicationActions.logout,
+      getPins: ApplicationActions.getPins,
+      createPin: ApplicationActions.createPin,
+      updateUserPicture: ApplicationActions.updateUserPicture,
+      createNewBoard: ApplicationActions.createNewBoard,
+      getBoards: ApplicationActions.getBoards,
+      getBoard: ApplicationActions.getBoard,
+      showPin: ApplicationActions.showPin,
+      createComment: ApplicationActions.createComment
     });
     this.getNewToken = this.getNewToken.bind(this);
     this.getNewUserData = this.getNewUserData.bind(this);
@@ -233,8 +232,10 @@ class LoginStore{
       'uid': this.responseHeaders["uid"]
     }).then((response) => {
       console.log(response);
+      this.setState({
+        pin_data: response.data
+      });
       this.getNewToken(response);
-      browserHistory.push(url);
     }).catch((error) => {
       console.log(error);
     });
@@ -242,4 +243,4 @@ class LoginStore{
 
 }
 
-export default Alt.createStore(LoginStore, 'LoginStore');
+export default Alt.createStore(ApplicationStore, 'ApplicationStore');

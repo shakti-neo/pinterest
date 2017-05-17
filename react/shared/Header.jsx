@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem, Grid } from "react-bootstrap";
 import { Link } from "react-router";
-import LoginStore from "../stores/LoginStores.jsx";
-import LoginActions from "../actions/LoginActions.jsx";
+import ApplicationStore from "../stores/ApplicationStore.jsx";
+import ApplicationActions from "../actions/ApplicationActions.jsx";
 import { Image } from "react-bootstrap";
 import { browserHistory } from "react-router";
 
@@ -27,13 +27,13 @@ class Header extends React.Component {
 
   componentWillMount(){
     this.setState({
-      responseHeaders: LoginStore.getState().responseHeaders,
-      responseData: LoginStore.getState().responseData
+      responseHeaders: ApplicationStore.getState().responseHeaders,
+      responseData: ApplicationStore.getState().responseData
     });
   }
 
   componentDidMount(){
-    LoginStore.listen(() => {
+    ApplicationStore.listen(() => {
       this.onChange();
     });
   }
@@ -47,7 +47,7 @@ class Header extends React.Component {
       responseHeaders: {},
       responseData: {}
     });
-    LoginActions.logout(true);
+    ApplicationActions.logout(true);
   }
 
   showUploadForm(){
@@ -62,8 +62,8 @@ class Header extends React.Component {
 
   onChange(){
     this.setState({
-      responseHeaders: LoginStore.getState().responseHeaders,
-      responseData: LoginStore.getState().responseData
+      responseHeaders: ApplicationStore.getState().responseHeaders,
+      responseData: ApplicationStore.getState().responseData
     });
   }
 
