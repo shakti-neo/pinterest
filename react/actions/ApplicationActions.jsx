@@ -44,6 +44,14 @@ class ApplicationActions {
   createComment(data){
     return data;
   }
+
+  likePin(id){
+    return id;
+  }
+
+  dislikePin(id){
+    return id;
+  }
 }
 
 export default Alt.createActions(ApplicationActions);

@@ -60,7 +60,7 @@ class Pin extends React.Component {
             <Col sm="12" md="6" sm="6">
               <Image src = { this.getUploaderContent(this.state.uploader) } style = {{ "width" : "45px" }} circle />
               <b> { this.state.uploader.email || "" } </b>
-              <Image src = { this.getPinContent(this.state.pin) } responsive />
+              <Image src = { this.getPinContent(this.state.pin) } responsive style = {{ "marginTop" : "10px" }}/>
             </Col>
             <Col sm="12" md="6" sm="6">
               <form onSubmit = { this.createComment }>

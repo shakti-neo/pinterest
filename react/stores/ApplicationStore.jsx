@@ -24,7 +24,9 @@ class ApplicationStore{
       getBoards: ApplicationActions.getBoards,
       getBoard: ApplicationActions.getBoard,
       showPin: ApplicationActions.showPin,
-      createComment: ApplicationActions.createComment
+      createComment: ApplicationActions.createComment,
+      likePin: ApplicationActions.likePin,
+      dislikePin: ApplicationActions.dislikePin
     });
     this.getNewToken = this.getNewToken.bind(this);
     this.getNewUserData = this.getNewUserData.bind(this);
@@ -80,6 +82,7 @@ class ApplicationStore{
       this.setState({
         pins: response.data
       })
+      console.log(response.data)
       this.getNewToken(response);
     }).catch((error) => {
       console.log(error);
@@ -236,6 +239,40 @@ class ApplicationStore{
         pin_data: response.data
       });
       this.getNewToken(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  likePin(id){
+    let url = "http://localhost:3000/pins/" + id + "/like";
+    axios.post(url, {
+      'access-token': this.responseHeaders["access-token"],
+      'client': this.responseHeaders["client"],
+      'expiry': this.responseHeaders["expiry"],
+      'uid': this.responseHeaders["uid"]
+    }).then((response) => {
+      this.getNewToken(response);
+      this.setState({
+        pins: response.data
+      });
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  dislikePin(id){
+    let url = "http://localhost:3000/pins/" + id + "/dislike";
+    axios.post(url, {
+      'access-token': this.responseHeaders["access-token"],
+      'client': this.responseHeaders["client"],
+      'expiry': this.responseHeaders["expiry"],
+      'uid': this.responseHeaders["uid"]
+    }).then((response) => {
+      this.getNewToken(response);
+      this.setState({
+        pins: response.data
+      });
     }).catch((error) => {
       console.log(error);
     });

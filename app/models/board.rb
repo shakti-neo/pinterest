@@ -7,10 +7,16 @@ class Board < ActiveRecord::Base
 
   after_create :assign_default_board_cover
 
+  before_destroy :delete_all_pins
+
   private
     def assign_default_board_cover
       board_cover = File.new(Rails.root + "public/board_cover.jpg", "r")
       self.cover = board_cover
       self.save
+    end
+
+    def delete_all_pins
+      self.pins.delete_all
     end
 end

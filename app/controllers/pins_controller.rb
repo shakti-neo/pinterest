@@ -1,10 +1,10 @@
 class PinsController < ApplicationController
-  before_action :set_pin, only: [:show, :edit, :update, :destroy]
+  before_action :set_pin, only: [:show, :edit, :update, :destroy, :like, :dislike]
   before_action :authenticate_user!
   # GET /pins
   # GET /pins.json
   def index
-    @pins = Pin.all.includes(:user).as_json(:include => {:user => {:only => [:email, :avatar]}})
+    @pins = Pin.all.includes(:user).as_json(:include => {:user => {:only => [:email, :avatar]}}, methods: :liked_by?)
     respond_to do |format|
       format.json { render json: @pins, status: :ok }
     end
@@ -66,6 +66,22 @@ class PinsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to pins_url, notice: 'Pin was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def like
+    @pin.liked_by current_user
+    @pins = Pin.all.includes(:user).as_json(:include => {:user => {:only => [:email, :avatar]}})
+    respond_to do |format|
+      format.json { render json: @pins, status: :ok }
+    end
+  end
+
+  def dislike
+    @pin.disliked_by current_user
+    @pins = Pin.all.includes(:user).as_json(:include => {:user => {:only => [:email, :avatar]}})
+    respond_to do |format|
+      format.json { render json: @pins, status: :ok }
     end
   end
 

@@ -5,10 +5,21 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'welcome#index'
-  resources :users, :defaults => { :format => :json }
-  resources :pins, :defaults => { :format => :json }
-  resources :boards, :defaults => { :format => :json }
-  resources :comments, :defaults => { :format => :json }
+
+  defaults format: :json do
+    resources :users, :defaults => { :format => :json }
+    resources :pins do
+      member do
+        post 'like'
+      end
+
+      member do
+        post 'dislike'
+      end
+    end
+    resources :boards, :defaults => { :format => :json }
+    resources :comments, :defaults => { :format => :json }
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
