@@ -11,6 +11,8 @@ class Pin extends React.Component {
     this.getPinContent = this.getPinContent.bind(this);
     this.getUploaderContent = this.getUploaderContent.bind(this);
     this.createComment = this.createComment.bind(this);
+    this.likePin = this.likePin.bind(this);
+    this.dislikePin = this.dislikePin.bind(this);
   }
 
   componentWillMount() {
@@ -34,6 +36,14 @@ class Pin extends React.Component {
       uploader: ApplicationStore.getState().pin_data.uploader || {},
       comments: ApplicationStore.getState().pin_data.comments || []
     });
+  }
+
+  likePin(id){
+    ApplicationActions.likePin(id);
+  }
+
+  dislikePin(id){
+    ApplicationActions.dislikePin(id);
   }
 
   getPinContent(pin){
@@ -61,11 +71,15 @@ class Pin extends React.Component {
               <Image src = { this.getUploaderContent(this.state.uploader) } style = {{ "width" : "45px" }} circle />
               <b> { this.state.uploader.email || "" } </b>
               <div style={{ "marginTop" : "10px", "marginBottom" : "10px" }}>
-                <Glyphicon glyph="thumbs-up" />
-                { this.state.pin.cached_votes_up }
+                <Button bsStyle = "primary" onClick={() => { this.likePin(this.state.pin.id) }}>
+                  <Glyphicon glyph="thumbs-up" />
+                  { this.state.pin.cached_votes_up }
+                </Button>
                 &nbsp;
-                <Glyphicon glyph="thumbs-down" />
-                { this.state.pin.cached_votes_down }
+                <Button bsStyle = "danger" onClick={() => { this.dislikePin(this.state.pin.id) }}>
+                  <Glyphicon glyph="thumbs-down" />
+                  { this.state.pin.cached_votes_down }
+                </Button>
               </div>
               <Image src = { this.getPinContent(this.state.pin) } responsive style = {{ "marginTop" : "10px", "borderRadius" : "15px" }}/>
             </Col>

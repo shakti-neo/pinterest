@@ -254,7 +254,7 @@ class ApplicationStore{
     }).then((response) => {
       this.getNewToken(response);
       this.setState({
-        pins: response.data
+        pin_data: response.data
       });
     }).catch((error) => {
       console.log(error);
@@ -271,7 +271,7 @@ class ApplicationStore{
     }).then((response) => {
       this.getNewToken(response);
       this.setState({
-        pins: response.data
+        pin_data: response.data
       });
     }).catch((error) => {
       console.log(error);

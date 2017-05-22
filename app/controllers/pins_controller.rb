@@ -15,8 +15,9 @@ class PinsController < ApplicationController
   def show
     @uploader = @pin.user
     @comments = @pin.comments.reorder('created_at DESC').includes(:user).as_json(:include => {:user => {:only => [:avatar, :email]}})
+    liked = current_user.voted_up_on? @pin
     respond_to do |format|
-      format.json { render json: { :pin => @pin, :uploader => @uploader, :comments => @comments }, status: :ok }
+      format.json { render json: { :pin => @pin, :uploader => @uploader, :comments => @comments, :liked => liked }, status: :ok }
     end
   end
 
@@ -71,17 +72,17 @@ class PinsController < ApplicationController
 
   def like
     @pin.liked_by current_user
-    @pins = Pin.all.includes(:user).as_json(:include => {:user => {:only => [:email, :avatar]}})
+    @comments = @pin.comments.reorder('created_at DESC').includes(:user).as_json(:include => {:user => {:only => [:avatar, :email]}})
     respond_to do |format|
-      format.json { render json: @pins, status: :ok }
+      format.json { render json: { :pin => @pin, :uploader => @pin.user, :comments => @comments }, status: :ok }
     end
   end
 
   def dislike
     @pin.disliked_by current_user
-    @pins = Pin.all.includes(:user).as_json(:include => {:user => {:only => [:email, :avatar]}})
+    @comments = @pin.comments.reorder('created_at DESC').includes(:user).as_json(:include => {:user => {:only => [:avatar, :email]}})
     respond_to do |format|
-      format.json { render json: @pins, status: :ok }
+      format.json { render json: { :pin => @pin, :uploader => @pin.user, :comments => @comments }, status: :ok }
     end
   end
 
