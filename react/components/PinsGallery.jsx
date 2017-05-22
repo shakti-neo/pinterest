@@ -26,7 +26,7 @@ class PinsGallery extends React.Component {
         entered={scaleDown.entered}
         leaved={scaleDown.leaved}
         monitorImagesLoaded = { true }
-        columnWidth = { 350 }
+        columnWidth = { 250 }
       >
         { this.props.pins.map((pin) => {
         return(

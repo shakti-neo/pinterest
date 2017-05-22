@@ -37,23 +37,21 @@ class DashboardPinsGallery extends React.Component {
         entered={scaleDown.entered}
         leaved={scaleDown.leaved}
         monitorImagesLoaded = { true }
-        columnWidth = { 300 }
+        columnWidth = { 200 }
+        gutterWidth = { 20 }
       >
         { this.props.pins.map((pin) => {
         return(
         <div style={{ "marginTop" : "10px", "marginBottom" : "10px" }}>
-          <Image onClick={ () => { this.showPin(pin.id) } } src = { "http://localhost:3000" + pin.pin_content.url } responsive />
-          <div style={{ "marginTop" : "10px" }}>
-            <Image src= { "http://localhost:3000" + pin.user.avatar.url } style={{ "width" : "25px", "height" : "25px" }} circle />
+          <Image onClick={ () => { this.showPin(pin.id) } } src = { "http://localhost:3000" + pin.pin_content.url } responsive style={{ "border-radius" : "15px" }} />
+          <div style={{ "marginTop" : "10px", "font-size" : "11px" }}>
             <b> { pin.description }</b>
             <div>
-              <Glyphicon onClick = { () => { this.likePin(pin.id) } } glyph="thumbs-up" />
-              { pin.cached_votes_up }
-              &nbsp;
-              &nbsp;
-              <Glyphicon onClick = { () => { this.dislikePin(pin.id) } } glyph="thumbs-down" />
-              { pin.cached_votes_down }
+              <Glyphicon glyph="heart" />
+              <b> { pin.cached_votes_up }</b>
             </div>
+            <Image src= { "http://localhost:3000" + pin.user.avatar.url } style={{ "width" : "25px", "height" : "25px" }} circle />
+            <b> { pin.user.email }</b>
           </div>
         </div>
         )

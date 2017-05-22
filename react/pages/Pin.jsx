@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Row, Image, Col, FormGroup, FormControl, Button } from 'react-bootstrap';
+import { Grid, Row, Image, Col, FormGroup, FormControl, Button, Glyphicon } from 'react-bootstrap';
 import ApplicationActions from "../actions/ApplicationActions.jsx";
 import ApplicationStore from "../stores/ApplicationStore.jsx";
 import CommentList from "../components/CommentList.jsx";
@@ -60,7 +60,14 @@ class Pin extends React.Component {
             <Col sm="12" md="6" sm="6">
               <Image src = { this.getUploaderContent(this.state.uploader) } style = {{ "width" : "45px" }} circle />
               <b> { this.state.uploader.email || "" } </b>
-              <Image src = { this.getPinContent(this.state.pin) } responsive style = {{ "marginTop" : "10px" }}/>
+              <div style={{ "marginTop" : "10px", "marginBottom" : "10px" }}>
+                <Glyphicon glyph="thumbs-up" />
+                { this.state.pin.cached_votes_up }
+                &nbsp;
+                <Glyphicon glyph="thumbs-down" />
+                { this.state.pin.cached_votes_down }
+              </div>
+              <Image src = { this.getPinContent(this.state.pin) } responsive style = {{ "marginTop" : "10px", "borderRadius" : "15px" }}/>
             </Col>
             <Col sm="12" md="6" sm="6">
               <form onSubmit = { this.createComment }>

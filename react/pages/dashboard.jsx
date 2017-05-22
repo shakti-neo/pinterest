@@ -33,12 +33,8 @@ class Dashboard extends React.Component {
 
   render(){
     return(
-      <div>
-        <Grid bsClass="container" style={{ "marginTop" : "70px" }}>
-          <Row style = {{ "marginTop" : "10px" }}>
-            <DashboardPinsGallery pins = { this.state.pins } />
-          </Row>
-        </Grid>
+      <div style={{ "marginTop" : "75px" }}>
+        <DashboardPinsGallery pins = { this.state.pins } />
       </div>
     );
   }
