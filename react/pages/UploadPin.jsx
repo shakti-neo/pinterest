@@ -60,34 +60,36 @@ class UploadPin extends React.Component {
 
   render(){
     return(
-      <Grid style={{ "marginTop" : "75px" }}>
-        <Row>
-          <Button onClick = { this.toggleNewBoardForm } bsStyle="primary">Create new Board</Button>
-          <Modal show = { this.state.showNewBoardForm }>
+      <div>
+        <Grid style={{ "marginTop" : "75px" }}>
+          <Row>
+            <Button onClick = { this.toggleNewBoardForm } bsStyle="primary">Create new Board</Button>
+            <Modal show = { this.state.showNewBoardForm }>
 
-            <Modal.Header>
-              <Modal.Title>Create new board</Modal.Title>
-            </Modal.Header>
+              <Modal.Header>
+                <Modal.Title>Create new board</Modal.Title>
+              </Modal.Header>
 
-            <Modal.Body>
-              <form onSubmit = { this.createNewBoard }>
-                <FormGroup bsSize="large">
-                  <FormControl name = "board_name" type="text" placeholder="Board name" />
-                </FormGroup>
-                <FormGroup>
-                  <FormControl name="board_description" type="text" placeholder="Board description" />
-                </FormGroup>
-                <Button type="submit" bsStyle="primary" bsSize="large" active>Upload Pin</Button>
-                <Button onClick = { this.toggleNewBoardForm } bsStyle="primary" bsSize="large" active>Cancel</Button>
-              </form>
-            </Modal.Body>
+              <Modal.Body>
+                <form onSubmit = { this.createNewBoard }>
+                  <FormGroup bsSize="large">
+                    <FormControl name = "board_name" type="text" placeholder="Board name" />
+                  </FormGroup>
+                  <FormGroup>
+                    <FormControl name="board_description" type="text" placeholder="Board description" />
+                  </FormGroup>
+                  <Button type="submit" bsStyle="primary" bsSize="large" active>Upload Pin</Button>
+                  <Button onClick = { this.toggleNewBoardForm } bsStyle="primary" bsSize="large" active>Cancel</Button>
+                </form>
+              </Modal.Body>
 
-          </Modal>
-        </Row>
-        <Row style={{ "marginTop" : "20px" }}>
+            </Modal>
+          </Row>
+        </Grid>
+        <div style = {{ "marginTop" : "20px" }}>
           <Gallery boards = { this.state.boards } />
-        </Row>
-      </Grid>
+        </div>
+      </div>
     );
   }
 }

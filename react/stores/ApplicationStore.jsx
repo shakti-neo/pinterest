@@ -26,7 +26,9 @@ class ApplicationStore{
       showPin: ApplicationActions.showPin,
       createComment: ApplicationActions.createComment,
       likePin: ApplicationActions.likePin,
-      dislikePin: ApplicationActions.dislikePin
+      dislikePin: ApplicationActions.dislikePin,
+      likeComment: ApplicationActions.likeComment,
+      dislikeComment: ApplicationActions.dislikeComment
     });
     this.getNewToken = this.getNewToken.bind(this);
     this.getNewUserData = this.getNewUserData.bind(this);
@@ -269,6 +271,50 @@ class ApplicationStore{
       'expiry': this.responseHeaders["expiry"],
       'uid': this.responseHeaders["uid"]
     }).then((response) => {
+      this.getNewToken(response);
+      this.setState({
+        pin_data: response.data
+      });
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  likeComment(id){
+    let url = "http://localhost:3000/comments/" + id + "/like";
+    axios.post(url, {
+      comment: {
+        id: id,
+        pin_id: this.pin_data.pin.id
+      },
+      'access-token': this.responseHeaders["access-token"],
+      'client': this.responseHeaders["client"],
+      'expiry': this.responseHeaders["expiry"],
+      'uid': this.responseHeaders["uid"]
+    }).then((response) => {
+      console.log(response);
+      this.getNewToken(response);
+      this.setState({
+        pin_data: response.data
+      });
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  dislikeComment(id){
+    let url = "http://localhost:3000/comments/" + id + "/dislike";
+    axios.post(url, {
+      comment: {
+        id: id,
+        pin_id: this.pin_data.pin.id
+      },
+      'access-token': this.responseHeaders["access-token"],
+      'client': this.responseHeaders["client"],
+      'expiry': this.responseHeaders["expiry"],
+      'uid': this.responseHeaders["uid"]
+    }).then((response) => {
+      console.log(response);
       this.getNewToken(response);
       this.setState({
         pin_data: response.data

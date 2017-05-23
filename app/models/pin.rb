@@ -7,9 +7,9 @@ class Pin < ActiveRecord::Base
 
   before_destroy :destroy_comments
 
-  def liked_by?
-    "Hello"
-  end
+  #def liked_by?
+  #  "Hello"
+  #end
 
 
   private

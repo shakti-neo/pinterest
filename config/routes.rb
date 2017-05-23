@@ -18,7 +18,12 @@ Rails.application.routes.draw do
       end
     end
     resources :boards, :defaults => { :format => :json }
-    resources :comments, :defaults => { :format => :json }
+    resources :comments do
+      member do
+        post 'like'
+        post 'dislike'
+      end
+    end
   end
 
   # Example of regular route:

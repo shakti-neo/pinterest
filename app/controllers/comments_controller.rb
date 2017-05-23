@@ -27,6 +27,26 @@ class CommentsController < ApplicationController
   def destroy
   end
 
+  def like
+    @comment = Comment.find(params.require(:comment)[:id])
+    @pin = Pin.find(params.require(:comment)[:pin_id])
+    @comment.liked_by current_user
+    @comments = @pin.comments.reorder('created_at DESC').includes(:user).as_json(:include => {:user => {:only => [:avatar, :email]}})
+    respond_to do |format|
+      format.json { render json: { :pin => @pin, :uploader => @pin.user, :comments => @comments }, status: :ok }
+    end
+  end
+
+  def dislike
+    @comment = Comment.find(params[:id])
+    @pin = Pin.find(params.require(:comment)[:pin_id])
+    @comment.disliked_by current_user
+    @comments = @pin.comments.reorder('created_at DESC').includes(:user).as_json(:include => {:user => {:only => [:avatar, :email]}})
+    respond_to do |format|
+      format.json { render json: { :pin => @pin, :uploader => @pin.user, :comments => @comments }, status: :ok }
+    end
+  end
+
   private
     def set_comment_to_pin_and_user
       @comment.user = current_user
