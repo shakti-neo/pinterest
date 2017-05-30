@@ -4,7 +4,7 @@ defaults: &defaults
   password: ac3r
   encoding: unicode
   pool: 5
-  host: localhost
+  host: 127.0.0.1
 
 development:
   <<: *defaults
