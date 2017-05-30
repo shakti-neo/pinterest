@@ -137,6 +137,9 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (12.0.0)
     rdoc (4.3.0)
+    redis (3.3.2)
+    redis-namespace (1.5.2)
+      redis (~> 3.0, >= 3.0.4)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
@@ -198,6 +201,8 @@ DEPENDENCIES
   rack-cors
   rails (= 4.2.8)
   rails-erd
+  redis
+  redis-namespace
   ruby-graphviz
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

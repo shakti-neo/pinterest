@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   respond_to :json
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:create]
 
   def index
     @users = User.all
@@ -18,11 +18,11 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       respond_to do |format|
-        format.json { render :json => @user }
+        format.json { render :json => { message: "Successfully registered", :user => @user, message_type: "Success" }, status: :ok }
       end
     else
       respond_to do |format|
-        format.json { render :json => @user }
+        format.json { render :json => { message: @user.errors.full_messages, message_type: "Error" } }
       end
     end
   end

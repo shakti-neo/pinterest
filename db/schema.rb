@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170522100232) do
+ActiveRecord::Schema.define(version: 20170526102828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,11 @@ ActiveRecord::Schema.define(version: 20170522100232) do
   add_index "pins", ["cached_weighted_average"], name: "index_pins_on_cached_weighted_average", using: :btree
   add_index "pins", ["cached_weighted_score"], name: "index_pins_on_cached_weighted_score", using: :btree
   add_index "pins", ["cached_weighted_total"], name: "index_pins_on_cached_weighted_total", using: :btree
+
+  create_table "slugs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",               default: "email", null: false

@@ -74,7 +74,7 @@ class Header extends React.Component {
             <Navbar collapseOnSelect fixedTop = { true }>
               <Navbar.Header>
                 <Navbar.Brand>
-                  <Link to="/">Pinterest</Link>
+                  <Link to="/"><b>Pinterest</b></Link>
                 </Navbar.Brand>
                 <Navbar.Toggle />
               </Navbar.Header>
@@ -93,16 +93,16 @@ class Header extends React.Component {
     else{
       return(
         <Navbar collapseOnSelect fixedTop = { true }>
-          <Navbar.Header>
+          <Navbar.Header style = {{ "backgroundColor" : "#ab281e" }}>
             <Navbar.Brand>
-              <Link to="/">Pinterest</Link>
+              <Link to="/" style = {{ "color" : "#fff" }}><b>&nbsp; Pinterest </b></Link>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
-            <Nav pullRight>
-              <NavItem ><Link to="/signin">SignIn</Link></NavItem>
-              <NavItem ><Link to="/signup">SignUp</Link></NavItem>
+            <Nav pullRight style = {{ "backgroundColor" : "#ab281e" }}>
+              <NavItem ><Link to="/signin" style = {{ "fontWeight" : "bold", "color" : "#ffffff" }}>SignIn</Link></NavItem>
+              <NavItem ><Link to="/signup" style = {{ "fontWeight" : "bold", "color" : "#ffffff" }}>SignUp</Link></NavItem>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
